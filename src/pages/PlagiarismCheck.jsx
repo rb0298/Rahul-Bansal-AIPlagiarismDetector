@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { Button } from "@/components/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/card"
+import { Input } from "@/components/input"
 import { Progress } from "@/components/progress"
-import { FileSearch, Upload, AlertCircle } from "lucide-react"
+import { FileSearch, AlertCircle } from "lucide-react"
+import Navigation from '../components/Navigation'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
+import Results from '../components/Results'
+
 
 // Mock function to simulate AI API call
 const mockPlagiarismCheck = async (file) => {
@@ -55,8 +60,10 @@ export default function PlagiarismCheck() {
     }
   };
 
-  return (
-    <div className="container mx-auto px-4 py-8">
+    return (
+        <div className="flex flex-col min-h-screen">
+        <Navigation/>
+        <div className="container mx-auto px-4 py-8">
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center">
@@ -73,54 +80,23 @@ export default function PlagiarismCheck() {
                 accept=".pdf,.doc,.docx"
                 className="flex-grow"
               />
-              <Button type="submit" disabled={!file || isLoading}>
+                                <Button type="submit" disabled={!file || isLoading}>
                 {isLoading ? 'Analyzing...' : 'Check Plagiarism'}
               </Button>
             </div>
             {error && (
-              <div className="text-red-500 flex items-center">
-                <AlertCircle className="mr-2" />
-                {error}
-              </div>
+            <Error error={error} />
             )}
             {isLoading && (
-              <div className="space-y-2">
-                <Progress value={66} className="w-full" />
-                <p className="text-center text-sm text-gray-500">Analyzing document for plagiarism...</p>
-              </div>
+              <Loading/>
             )}
             {results && (
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Results</h3>
-                <div className="flex items-center justify-between">
-                  <span>Plagiarism Detected:</span>
-                  <span className={`font-bold ${results.plagiarismPercentage > 20 ? 'text-red-500' : 'text-green-500'}`}>
-                    {results.plagiarismPercentage.toFixed(2)}%
-                  </span>
-                </div>
-                <Progress 
-                  value={results.plagiarismPercentage} 
-                  className="w-full"
-                  indicatorClassName={results.plagiarismPercentage > 20 ? 'bg-red-500' : 'bg-green-500'}
-                />
-                <div>
-                  <h4 className="font-semibold mb-2">Matched Sources:</h4>
-                  <ul className="space-y-2">
-                    {results.matchedSources.map((source, index) => (
-                      <li key={index} className="flex justify-between items-center bg-gray-100 p-2 rounded">
-                        <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                          {source.url}
-                        </a>
-                        <span className="font-semibold">{source.similarity}% match</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+            <Results/>
             )}
           </form>
         </CardContent>
       </Card>
-    </div>
+         </div>
+     </div>
   )
 }
