@@ -1,3 +1,5 @@
+import { Progress } from "./progress"
+
 function Results({results}) {
     return (
         <div className="space-y-4">

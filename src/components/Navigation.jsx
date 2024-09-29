@@ -1,6 +1,8 @@
 import {  FileSearch } from "lucide-react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 function Navigation() {
+
     return  <header className="px-4 lg:px-6 h-14 flex items-center">
     <Link className="flex items-center justify-center" to="/home">
       <FileSearch className="h-6 w-6 mr-2" />

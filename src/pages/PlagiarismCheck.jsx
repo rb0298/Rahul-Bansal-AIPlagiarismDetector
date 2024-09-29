@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { Button } from "@/components/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/card"
-import { Input } from "@/components/input"
-import { Progress } from "@/components/progress"
-import { FileSearch, AlertCircle } from "lucide-react"
+import { Input } from "@/components/Input"
+import { FileSearch } from "lucide-react"
 import Navigation from '../components/Navigation'
 import Error from '../components/Error'
 import Loading from '../components/Loading'
 import Results from '../components/Results'
 
 
-// Mock function to simulate AI API call
+// Mock function to simulate AI API ca
+
 const mockPlagiarismCheck = async (file) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -91,7 +91,7 @@ export default function PlagiarismCheck() {
               <Loading/>
             )}
             {results && (
-            <Results/>
+            <Results results={results} />
             )}
           </form>
         </CardContent>
